@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Marks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(to right, #ff4d4d, #4d79ff);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+    }
+
+    header, footer {
+      background-color: rgba(0, 0, 0, 0.4);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #ffd700 !important;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 15px;
+      padding: 2rem;
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    input {
+      border-radius: 10px !important;
+    }
+
+    footer {
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>Student Marks Management System</h2>
+  </header>
+
+  <nav class="nav justify-content-center bg-dark py-2">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="Add-marks.html">Add Marks</a>
+    <a class="nav-link" href="view-marks.html">View Marks</a>
+    <a class="nav-link" href="student-list.html">Student List</a>
+    <a class="nav-link" href="dashboard.html">Dashboard</a>
+    <a class="nav-link" href="login.html">Login</a>
+    <a class="nav-link" href="Register.html">Register</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+  </nav>
+
+  <main class="container my-5">
+    <div class="card">
+      <h4>Add Student Marks</h4>
+      <div class="row g-2 mt-3">
+        <div class="col-md-6"><input type="text" id="studentName" class="form-control" placeholder="Student Name"></div>
+        <div class="col-md-6"><input type="number" id="databaseMarks" class="form-control" placeholder="Database Marks"></div>
+        <div class="col-md-6"><input type="number" id="ethicsMarks" class="form-control" placeholder="Ethics Marks"></div>
+        <div class="col-md-6"><input type="number" id="assemblyMarks" class="form-control" placeholder="Assembly Marks"></div>
+        <div class="col-md-6"><input type="number" id="dataStructMarks" class="form-control" placeholder="Data Structure Marks"></div>
+        <div class="col-md-6"><input type="number" id="jsMarks" class="form-control" placeholder="JavaScript Marks"></div>
+        <div class="col-12 mt-3">
+          <button onclick="addMarks()" class="btn btn-warning w-100">Submit Marks</button>
+        </div>
+      </div>
+      <div id="msg" class="mt-3 text-light"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Contact Us: info@student-system.com | +252 61 1234567</p>
+  </footer>
+
+  <script>
+    function addMarks() {
+      const name = document.getElementById("studentName").value.trim();
+      const db = parseFloat(document.getElementById("databaseMarks").value);
+      const ethics = parseFloat(document.getElementById("ethicsMarks").value);
+      const asm = parseFloat(document.getElementById("assemblyMarks").value);
+      const ds = parseFloat(document.getElementById("dataStructMarks").value);
+      const js = parseFloat(document.getElementById("jsMarks").value);
+      const msg = document.getElementById("msg");
+
+      if (!name || isNaN(db) || isNaN(ethics) || isNaN(asm) || isNaN(ds) || isNaN(js)) {
+        msg.style.color = 'yellow';
+        msg.textContent = "❌ Please fill all fields correctly.";
+        return;
+      }
+
+      const student = {
+        name,
+        database: db,
+        ethics,
+        assembly: asm,
+        dataStruct: ds,
+        javascript: js,
+        average: ((db + ethics + asm + ds + js) / 5).toFixed(2)
+      };
+
+      const all = JSON.parse(localStorage.getItem("students") );
+      all.push(student);
+      localStorage.setItem("students", JSON.stringify(all));
+
+      msg.style.color = 'lightgreen';
+      msg.textContent = "✅ Marks added successfully!";
+      document.querySelectorAll("input").forEach(input => input.value = ""); // wuu is tirtiraa
+    }
+  </script>
+
+</body>
+</html>
